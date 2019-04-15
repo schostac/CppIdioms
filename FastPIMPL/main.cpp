@@ -12,6 +12,6 @@
 int main()
 {
   Logger logger;
-  logger.log("Some error!");
+  logger.log("An error!");
   return 0;
 }

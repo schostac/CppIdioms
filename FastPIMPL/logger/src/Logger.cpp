@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <stdexcept>
 
 namespace constants {
   static constexpr char fileName[] = "MyLogs.txt";
@@ -9,11 +10,16 @@ namespace constants {
 
 class LoggerImpl {
 public:
-  LoggerImpl(): file(constants::fileName) {}
+  LoggerImpl(): file(constants::fileName) {
+    if(not file.is_open()) 
+      throw std::runtime_error{"Cannot open file!"};
+  }
+
   void log(const std::string & info) { 
     std::cout << "Logging: " << info << std::endl;
     file << info << '\n'; 
   }
+  
 private:
   std::ofstream file;
 };
