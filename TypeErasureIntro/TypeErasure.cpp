@@ -15,12 +15,11 @@
  * In strongly typed languages the type of an object doesn't change.
  * 
  * At the same time, the type erasure idiom in C++ allows usage of 
- * various concrete types through a single generic interface. So,
- * it's sort of workaround.
+ * various concrete types through a single generic interface.
  * 
  * There is no one strict rule how to implement this idiom, it  can 
  * have various forms. In other words, we can erase type 
- * in many different ways.
+ * in many different ways (void*, templates, polymorphism, etc.).
  * 
  * https://en.wikipedia.org/wiki/Type_system
  * https://en.wikipedia.org/wiki/Type_erasure
@@ -44,8 +43,7 @@ int compare(const void* a, const void* b)
     return 0;
 };
 
-// Drawback: not safe, works only with raw array or sequence containers
-// (e.g. would not work with std::set or std::list)
+// Drawback: not safe
 // ********************************************************************
 
 
@@ -57,7 +55,7 @@ template <class RandomAccessIterator>
   void sort(RandomAccessIterator first, RandomAccessIterator last);
 
 // Drawback: may lead to many function template instantions 
-// and long compilation time
+// and longer compilation time
 // ********************************************************
 
 
@@ -80,7 +78,7 @@ struct C : A {
 // We don't see a concrete type (it's erased) though can dynamic_cast
 void call(A* p) { p->foo(); };
 
-// Drawback: run-time cost (dispatch, indirection, vtable, etc.)
+// Drawback: run-time cost (dynamic dispatch, indirection, vtable, etc.)
 // *************************************************************
 
 
@@ -118,7 +116,7 @@ int main()
     // 4. Type erasure using union class
     examples::U u;
     u.n = 100;
-    u.c = 'x';
+    u.c; // reading c is undefined
     new(&u.d) examples::Data();
 
     return 0;

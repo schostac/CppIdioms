@@ -1,8 +1,4 @@
 #include <iostream>
-#include <vector>
-#include <set>
-#include <stdexcept>
-#include <numeric> 
 
 /*
  * Nullptr 
